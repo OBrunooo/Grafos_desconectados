@@ -1,12 +1,42 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grafos Desconectados</title>
+    <title>Grafos</title>
+    <link rel="stylesheet" href="main.css">
 </head>
+
 <body>
-    
+    <h1>Grafos Desconectados</h1>
+    <div class="adicionar">
+        <div class="adicionar_title">
+            <h3>Vértice</h3>
+            <h3>Ligações</h3>
+        </div>
+        <form class="adicionar_form" id="form" action="">
+            <div class="add_vertice">
+                <input class="adicionar_campo vertice" placeholder="Ex: A" type="text" />
+                <input class="adicionar_campo ligacoes" placeholder="Ex: B,C,D" type="text" />
+            </div>
+        </form>
+        <div class="div_button">
+            <button class="button" required id="add_vertice">Adicionar vértices +</button>
+            <button class="button" required id="criar_grafo" type="click">Criar grafos</button>
+        </div>
+    </div>
+    <div class="resultado">
+        <div class="imagem">
+            <img src="img/grafo.png" alt="">
+        </div>
+        <div class="tabela">
+            <table border="1"  id="table">
+            </table>
+        </div>
+    </div>
+    <footer class="footer"></footer>
 </body>
-<script src="main.js" ></script>
+<script src="main.js"></script>
+
 </html>
