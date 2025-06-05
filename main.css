@@ -38,6 +38,7 @@ h1 {
     display: block;
     margin: 0 auto;
     justify-content: center;
+    height: 100%;
 }
 
 .add_vertice {
@@ -65,7 +66,7 @@ h1 {
 
 .button {
     margin: 0 10px;
-    margin-top: 70px;
+    margin-top: 50px;
     padding: 7px;
     border: none;
     border: 1px solid #fff;
@@ -116,4 +117,10 @@ td, th {
 
 .footer {
     height: 100px;
+}
+
+#erro {
+    color: red;
+    margin-top: 20px;
+    text-align: center;
 }

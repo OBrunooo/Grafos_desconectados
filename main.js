@@ -1,22 +1,21 @@
 document.addEventListener("DOMContentLoaded", function () {
   var todos_vertices = []
   var todas_ligacoes = []
-  const button_criar_grafo = document.getElementById("criar_grafo")
-
-
+  const form = document.getElementById("form")
   function organiza_vertice() {
+    todos_vertices = []
     var inputs_vertices = document.getElementsByClassName('vertice')
 
     for (let i = 0; i < inputs_vertices.length; i++) {
       var vertice = (inputs_vertices[i]).value
-      if (!todos_vertices.includes(vertice)) {
+
         todos_vertices.push(vertice)
-      }
 
     }
   }
 
   function organiza_ligacoes() {
+    todas_ligacoes = []
     var inputs_ligacoes = document.getElementsByClassName('ligacoes')
 
     for (let i = 0; i < inputs_ligacoes.length; i++) {
@@ -38,13 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log(todas_ligacoes[index])
         }
       }
-      console.log('----')
     }
-
-    console.log("vertice")
-    console.log(todos_vertices)
-    console.log("ligacao")
-    console.log(todas_ligacoes)
   }
 
   var html = ''
@@ -73,40 +66,71 @@ document.addEventListener("DOMContentLoaded", function () {
     window.localStorage.setItem('tabela', html)
   }
 
-
-  button_criar_grafo.addEventListener("click", function () {
-    organiza_vertice()
-    organiza_ligacoes()
-    async function fetch_data() {
-      try {
-        const response = await fetch('http://localhost:5000/grafos', {
-          method: "POST",
-          headers: { 'Content-Type': 'application/json'},
-          body: JSON.stringify({vertices: todos_vertices, ligacoes: todas_ligacoes})
-        })
-        const data = await response.json();
-        console.log(data)
-      } catch (error){
-        console.log(error)
+  function validar_dados(){
+    var verificacao_dados = []
+    for(let i=0; i< todas_ligacoes.length;i++){
+      ligacao = todas_ligacoes[i]
+      for(let x=0; x<ligacao.length; x++) {
+        if(ligacao[x] != '' && !todos_vertices.includes(ligacao[x])){
+          verificacao_dados.push(ligacao[x])
+        }
       }
     }
-    fetch_data()
-    html_tabela()
+    return verificacao_dados
+  }
+
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault()
+    organiza_vertice()
+    organiza_ligacoes()
+    var verificacao_dados = validar_dados()
+
+    if(verificacao_dados.length == 0) {
+      async function fetch_data() {
+        try {
+          const response = await fetch('http://localhost:5000/grafos', {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify({vertices: todos_vertices, ligacoes: todas_ligacoes})
+          })
+          const data = await response.json();
+          console.log(data)
+        } catch (error){
+          console.log(error)
+        }
+      }
+      fetch_data()
+      html_tabela()
+    } else {
+      var html_error = 'Você se esqueceu de declarar os vértices '
+      for(let i=0; i<verificacao_dados.length;i++){
+        if(i==0){
+          html_error += `${verificacao_dados[i]}`
+        }else {
+          html_error += `, ${verificacao_dados[i]}`
+        }
+      }
+      var erro = document.getElementById('erro')
+      erro.innerHTML = html_error
+    }
   })
 
-  const button_add_vertice = document.getElementById("add_vertice")
+  const button_add_vertice = document.getElementById("button_add_vertice")
+  
   button_add_vertice.addEventListener("click", function () {
-    const form = document.getElementById("form")
+    const add_vertice = document.getElementById("add_vertice")
     var html_novo_vertice = `<div class="add_vertice">
                 <input required class="adicionar_campo vertice" placeholder="Ex: A" type="text"/>
                 <input required class="adicionar_campo ligacoes" placeholder="Ex: B,C,D"  type="text"/>
             </div>`
-    form.insertAdjacentHTML('beforeend', html_novo_vertice)
+    add_vertice.insertAdjacentHTML('beforeend', html_novo_vertice)
   })
 
-  console.log(localStorage.getItem('tabela'))
   table = document.getElementById("table")
   table.innerHTML = localStorage.getItem('tabela')
+
+
 
 
 })
