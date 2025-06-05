@@ -33,7 +33,7 @@ h1 {
     text-align: center;
 }
 
-.adicionar_form{
+#all_vertices{
     width: 30%;
     display: block;
     margin: 0 auto;
@@ -84,7 +84,7 @@ h1 {
     background-color: rgb(56 118 56);
 }
 
-#add_vertice {
+#button_add_vertice {
     background-color: #989849
 }
 

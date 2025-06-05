@@ -119,12 +119,12 @@ document.addEventListener("DOMContentLoaded", function () {
   const button_add_vertice = document.getElementById("button_add_vertice")
   
   button_add_vertice.addEventListener("click", function () {
-    const add_vertice = document.getElementById("add_vertice")
+    const all_vertices = document.getElementById("all_vertices")
     var html_novo_vertice = `<div class="add_vertice">
                 <input required class="adicionar_campo vertice" placeholder="Ex: A" type="text"/>
                 <input required class="adicionar_campo ligacoes" placeholder="Ex: B,C,D"  type="text"/>
             </div>`
-    add_vertice.insertAdjacentHTML('beforeend', html_novo_vertice)
+    all_vertices.insertAdjacentHTML('beforeend', html_novo_vertice)
   })
 
   table = document.getElementById("table")
