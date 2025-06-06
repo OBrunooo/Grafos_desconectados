@@ -1,3 +1,4 @@
+# pip install flask flask-cors networkx matplotlib pillow
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import networkx as nx
@@ -35,12 +36,14 @@ def data():
     dados = request.get_json()
     vertices = dados['vertices']
     ligacoes = dados['ligacoes']
-    
+    print(dados)
     for i in range(len(vertices)):
         G.add_node(vertices[i])
         ligacoes_deste_vertice = ligacoes[i]
         for x in range(len(ligacoes_deste_vertice)):
-            G.add_edge(vertices[i], ligacoes_deste_vertice[x])
+            if ligacoes_deste_vertice[x] != '':
+                print('a'+ ligacoes_deste_vertice[x])
+                G.add_edge(vertices[i], ligacoes_deste_vertice[x])
         
     plt.figure()
     nx.draw_shell(G, with_labels=True)
