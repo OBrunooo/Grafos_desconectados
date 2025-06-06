@@ -104,6 +104,10 @@ h1 {
     margin: 0 30px;
 }
 
+.imagem {
+    width: 50%;
+}
+
 img {
     width: 100%;
     height: 100%;

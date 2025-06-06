@@ -12,20 +12,6 @@ document.addEventListener("DOMContentLoaded", function () {
       todos_vertices.push(vertice)
     }
 
-    // for (let i = 0; i < todos_vertices.length; i++) {
-    //   var vertice = todos_vertices[i]
-
-    //   var index = todos_vertices.includes(vertice)
-    //   if (index != -1 && index != i) {
-    //     var mover_ligacoes = todas_ligacoes[index]
-
-    //     for(let y=0; y<mover_ligacoes.length;y++) {
-    //       todas_ligacoes[i].push(mover_ligacoes[y])
-    //     }
-    //     (todas_ligacoes[index]).splice(index,index)
-    //     (todos_vertices[index]).splice(index,index)
-    //   }}
-
     }
 
 
@@ -83,27 +69,65 @@ document.addEventListener("DOMContentLoaded", function () {
       window.localStorage.setItem('tabela', html)
     }
 
+    function validacao_valores(){
+      var inputs_vertices = document.getElementsByClassName('vertice')
+      var verificacao = []
+    for (let i = 0; i < inputs_vertices.length; i++) {
+      var vertice = (inputs_vertices[i]).value
+      verificacao.push(vertice)
+    }
+    index = []
+    for(let i=0; i<verificacao.length; i++){
+      var verificar = verificacao[i]
+      for(let x=0; x<verificacao.length; x++){
+        if(verificacao[x] == verificar && i != x) {
+          if(index.includes(verificacao[x]) == false){
+            index.push(verificacao[x])
+          }
+        }
+    }
+    }
+    return(index)
+    }
+
 
     form.addEventListener("submit", function (e) {
       e.preventDefault()
-      organiza_vertice()
-      organiza_ligacoes()
-
-      async function fetch_data() {
-        try {
-          const response = await fetch('http://localhost:5000/grafos', {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ vertices: todos_vertices, ligacoes: todas_ligacoes })
-          })
-          const data = await response.json();
-          console.log(data)
-        } catch (error) {
-          console.log(error)
+      validacao_valores()
+      var result = validacao_valores()
+      if(result.length != 0){
+        var erro = document.getElementById('erro')
+        var erro_html = `Erro: Foram encontrados vértices com nomes duplicados. Corrija os vértices com os seguintes nomes para que sejam únicos: `
+        for(let i=0; i<result.length; i++){
+          if(i==0){
+            erro_html += `${result[i]}`
+          }else {
+            erro_html += `, ${result[i]}`
+          }
         }
+        erro.innerHTML = erro_html
+      } else {
+        organiza_vertice()
+        organiza_ligacoes()
+  
+        async function fetch_data() {
+          try {
+            const response = await fetch('http://localhost:5000/grafos', {
+              method: "POST",
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ vertices: todos_vertices, ligacoes: todas_ligacoes })
+            })
+            const data = await response.json();
+            console.log(data)
+          } catch (error) {
+            console.log(error)
+          }
+        }
+        fetch_data()
+        html_tabela()
+
       }
-      fetch_data()
-      html_tabela()
+
     })
 
 
